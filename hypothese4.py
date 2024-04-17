@@ -5,14 +5,19 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Chargement du fichier CSV pour voir son contenu
-df = pd.read_csv('./Age_conjoncturel.csv', sep=';')
+df = pd.read_csv('./Age_conjoncturel2.csv', sep=';')
+
+#df['ageconj'] = df['ageconj'].str.replace(',', '.')
+
+# Convertir la colonne "age" en float
+#df['ageconj'] = df['ageconj'].astype(float)
 
 # Sélection des variables explicatives (features) et de la variable cible (target)
-X = df[['Année']] # Variable explicative : 'vente'
-y = df['ageconj']  # Variable cible : 'age_depart_a_la_retraite'
+x = df[['Annee']] # Variable explicative : 'année'
+y = df[['ageconj']]  # Variable cible : 'ageconj'
 
 # Division des données en un ensemble d'entraînement et un ensemble de test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
 # Création d'une instance du modèle de régression linéaire
 model = LinearRegression()
@@ -28,6 +33,7 @@ mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 (mse, r2)
 print(r2)
+print(mse)
 
 # Tracé des points de données
 plt.scatter(X_test, y_test, color='black', label='Données réelles')
@@ -35,8 +41,8 @@ plt.scatter(X_test, y_test, color='black', label='Données réelles')
 # Tracé de la ligne de régression
 plt.plot(X_test, y_pred, color='blue', linewidth=3, label='Ligne de régression')
 
-plt.xlabel('annee')
-plt.ylabel('age_conjoncturel_de_depart_a_la_retraite')
+plt.xlabel('Année')
+plt.ylabel('Age départ à la retraite')
 plt.title('Régression Linéaire Simple - Age de départ à la retraite en fonction de année')
 plt.legend()
 plt.show()
