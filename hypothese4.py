@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Chargement du fichier CSV pour voir son contenu
-df = pd.read_csv('./departretraite_parcsp.csv', sep=';')
+df = pd.read_csv('./Age_conjoncturel.csv', sep=';')
 
 # Sélection des variables explicatives (features) et de la variable cible (target)
-X = df[['annee']] # Variable explicative : 'vente'
-y = df['age_conjoncturel_de_depart_a_la_retraite']  # Variable cible : 'age_depart_a_la_retraite'
+X = df[['Année']] # Variable explicative : 'vente'
+y = df['ageconj']  # Variable cible : 'age_depart_a_la_retraite'
 
 # Division des données en un ensemble d'entraînement et un ensemble de test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
