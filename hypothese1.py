@@ -5,17 +5,22 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Chargement du fichier CSV pour voir son contenu
-df = pd.read_csv('./departretraite_parcsp.csv', sep=";")
+df = pd.read_csv('./Age_conjoncturel.csv', sep=';')
+
+df['ageconj'] = df['ageconj'].str.replace(',', '.')
+
+# Convertir la colonne "age" en float
+df['ageconj'] = df['ageconj'].astype(float)
 
 #Conserver uniquement les lignes correspondants au type de produit beauté
-df_agric = df.loc[df['categorie_socioprofessionnelle'] == '1 - Agriculteurs exploitants']
+#df_femme = df.loc[df['Sexe'] == 'Femmes']
 
 # Échantillonnage aléatoire pour conserver 50% des données
 #df_sampled = df.sample(frac=1)
 
 # Sélection des variables explicatives (features) et de la variable cible (target)
-X = df_agric [['annee']]  # Variable explicative : 'Année'
-y = df_agric ['age_conjoncturel_de_depart_a_la_retraite']  # Variable cible : 'Age de départ'
+X = df[['Année']]  # Variable explicative : 'Année'
+y = df['ageconj']  # Variable cible : 'Age de départ'
 
 # Division des données en un ensemble d'entraînement et un ensemble de test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -43,6 +48,6 @@ plt.plot(X_test, y_pred, color='blue', linewidth=3, label='Ligne de régression'
 
 plt.xlabel('Année de départ')
 plt.ylabel('Âge de départ')
-plt.title("Régression Linéaire Simple - Année de départ en fonction de l'âge pour les Agriculteurs")
+plt.title("Régression Linéaire Simple - Année de départ en fonction de l'âge pour les Femmes")
 plt.legend()
 plt.show()
