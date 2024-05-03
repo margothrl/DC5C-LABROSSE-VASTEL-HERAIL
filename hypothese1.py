@@ -5,22 +5,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Chargement du fichier CSV pour voir son contenu
-df = pd.read_csv('./Age_conjoncturel.csv', sep=';')
-
-df['ageconj'] = df['ageconj'].str.replace(',', '.')
-
-# Convertir la colonne "age" en float
-df['ageconj'] = df['ageconj'].astype(float)
-
-#Conserver uniquement les lignes correspondants au type de produit beauté
-#df_femme = df.loc[df['Sexe'] == 'Femmes']
-
-# Échantillonnage aléatoire pour conserver 50% des données
-#df_sampled = df.sample(frac=1)
+df = pd.read_csv('./Salary_Data.csv', sep=';')
 
 # Sélection des variables explicatives (features) et de la variable cible (target)
-X = df[['Année']]  # Variable explicative : 'Année'
-y = df['ageconj']  # Variable cible : 'Age de départ'
+X = df[['Salary']]  # Variable explicative : 'Salary'
+y = df['Years of Experience']  # Variable cible : 'Years of Experience'
 
 # Division des données en un ensemble d'entraînement et un ensemble de test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -46,8 +35,8 @@ plt.scatter(X_test, y_test, color='black', label='Données réelles')
 # Tracé de la ligne de régression
 plt.plot(X_test, y_pred, color='blue', linewidth=3, label='Ligne de régression')
 
-plt.xlabel('Année de départ')
-plt.ylabel('Âge de départ')
-plt.title("Régression Linéaire Simple - Année de départ en fonction de l'âge pour les Femmes")
+plt.xlabel('Salaires')
+plt.ylabel('Years of Experience')
+plt.title('Régression Linéaire Simple - Salaires en fonction de Years of Experience')
 plt.legend()
 plt.show()
