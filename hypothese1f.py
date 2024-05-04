@@ -7,9 +7,11 @@ import pandas as pd
 # Chargement du fichier CSV pour voir son contenu
 df = pd.read_csv('./Data_Salary_Market.csv', sep=';')
 
+df_femme = df.loc[df['Gender'] == 'Female']
+
 # Sélection des variables explicatives (features) et de la variable cible (target)
-X = df[['Years of Experience']]  #Variable explicative : 'Years of Experience'
-y = df['Salary']  #Variable cible que l'on veut prédire : 'Salary'
+X = df_femme[['Years of Experience']]  #Variable explicative : 'Years of Experience'
+y = df_femme['Salary']  #Variable cible que l'on veut prédire : 'Salary'
 
 # Division des données en un ensemble d'entraînement et un ensemble de test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -37,6 +39,6 @@ plt.plot(X_test, y_pred, color='blue', linewidth=3, label='Ligne de régression'
 
 plt.xlabel('Années d\'expérience')
 plt.ylabel('Salaires')
-plt.title('Régression Linéaire Simple - Salaires en fonction des Années d\'expérience')
+plt.title('Régression Linéaire Simple - Salaires des Femmes en fonction des Années d\'expérience')
 plt.legend()
 plt.show()
