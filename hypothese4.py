@@ -1,48 +1,20 @@
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
-import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
 
-# Chargement du fichier CSV pour voir son contenu
-df = pd.read_csv('./Age_conjoncturel2.csv', sep=';')
+df = pd.read_csv('./Data_Salary_Market.csv', sep=';')
 
-#df['ageconj'] = df['ageconj'].str.replace(',', '.')
+# Calculer la moyenne des salaires par pays
+salaires_moyens_par_pays = df.groupby('Country')['Salary'].mean().reset_index()
 
-# Convertir la colonne "age" en float
-#df['ageconj'] = df['ageconj'].astype(float)
+# Afficher un bar chart de la moyenne des salaires en fonction du pays
+plt.figure(figsize=(10, 6))
+bars = plt.bar(salaires_moyens_par_pays['Country'], salaires_moyens_par_pays['Salary'], color='skyblue')
+plt.xlabel('Pays')
+plt.ylabel('Moyenne des Salaires')
+plt.title('Moyenne des Salaires par Pays')
+plt.xticks(rotation=45)
 
-# Sélection des variables explicatives (features) et de la variable cible (target)
-x = df[['Annee']] # Variable explicative : 'année'
-y = df[['ageconj']]  # Variable cible : 'ageconj'
-
-# Division des données en un ensemble d'entraînement et un ensemble de test
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-
-# Création d'une instance du modèle de régression linéaire
-model = LinearRegression()
-
-# Entraînement du modèle sur l'ensemble d'entraînement
-model.fit(X_train, y_train)
-
-# Prédiction sur l'ensemble de test
-y_pred = model.predict(X_test)
-
-# Calcul de l'erreur quadratique moyenne (MSE) et du coefficient de détermination (R^2)
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-(mse, r2)
-print(r2)
-print(mse)
-
-# Tracé des points de données
-plt.scatter(X_test, y_test, color='black', label='Données réelles')
-
-# Tracé de la ligne de régression
-plt.plot(X_test, y_pred, color='blue', linewidth=3, label='Ligne de régression')
-
-plt.xlabel('Année')
-plt.ylabel('Age départ à la retraite')
-plt.title('Régression Linéaire Simple - Age de départ à la retraite en fonction de année')
-plt.legend()
+# Ajouter les étiquettes au-dessus de chaque barre
+plt.bar_label(bars, labels=salaires_moyens_par_pays['Salary'].round(2), padding=3)
+plt.tight_layout()  
 plt.show()
